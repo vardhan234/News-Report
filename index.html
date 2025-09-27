@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NBKRIST College Daily News</title>
+  <style>
+    :root {
+      --primary-blue: #004080;
+      --secondary-blue: #0066cc;
+      --accent-yellow: #ffcc00;
+      --text-dark: #333;
+      --text-light: #fff;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      color: var(--text-dark);
+      transition: background-color 0.5s ease;
+    }
+
+    body.login-active {
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .logo-container {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--text-light);
+      box-shadow: var(--shadow);
+    }
+
+    .site-logo {
+      max-width: 150px;
+      height: auto;
+    }
+
+    header {
+      background-color: #000;
+      color: var(--text-light);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+      background-color: var(--primary-blue);
+      color: var(--text-light);
+    }
+
+    .search-input {
+      width: 300px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .search-button {
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: none;
+      background-color: var(--accent-yellow);
+      color: var(--text-dark);
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+      background-color: #ffb300;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #f4f6f8;
+      padding: 1rem;
+    }
+
+    .nav-btn {
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 0 5px;
+      border: none;
+    }
+
+    .nav-btn:hover {
+      opacity: 0.9;
+    }
+
+    .nav-btn-blue { background-color: var(--secondary-blue); }
+    .nav-btn-green { background-color: #28a745; }
+    .nav-btn-purple { background-color: #6f42c1; }
+    .nav-btn-orange { background-color: #fd7e14; }
+    .nav-btn-red { background-color: #dc3545; }
+    .nav-btn-teal { background-color: #20c997; }
+
+    .active {
+      background-color: var(--text-light) !important;
+      color: var(--text-dark) !important;
+      box-shadow: var(--shadow);
+      transform: scale(1.05);
+      border-bottom: 3px solid var(--secondary-blue);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .news-article, .portfolio-item {
+      background: var(--text-light);
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .news-article:hover, .portfolio-item:hover {
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    }
+
+    .news-title, .portfolio-title {
+      font-size: 1.4rem;
+      color: var(--primary-blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .news-meta, .portfolio-meta {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .news-content, .portfolio-content {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .news-image, .portfolio-image {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      loading: lazy;
+    }
+
+    .portfolio-content ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    .portfolio-content ul li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .portfolio-content ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--primary-blue);
+    }
+
+    .portfolio-content a {
+      color: var(--secondary-blue);
+      text-decoration: none;
+    }
+
+    .portfolio-content a:hover {
+      text-decoration: underline;
+      color: var(--primary-blue);
+    }
+
+    .admin-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .admin-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-btn {
+      background-color: #28a745;
+      color: var(--text-light);
+    }
+
+    .edit-btn:hover {
+      background-color: #218838;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: var(--text-light);
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+
+    .faculty-btn {
+      background-color: #17a2b8;
+      color: var(--text-light);
+    }
+
+    .faculty-btn:hover {
+      background-color: #138496;
+    }
+
+    .back-btn {
+      background-color: #6c757d;
+      color: var(--text-light);
+    }
+
+    .back-btn:hover {
+      background-color: #5a6268;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--primary-blue);
+      color: var(--text-light);
+      margin-top: 3rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: #dc3545;
+      font-size: 0.9rem;
+      min-height: 1.2em;
+      text-align: center;
+    }
+
+    .success {
+      color: #28a745;
+      font-size: 0.9rem;
+      min-height: 1.2em;
+      text-align: center;
+    }
+
+    .form-section {
+      max-width: 400px;
+      margin: 1rem auto;
+      background: var(--text-light);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .form-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .login-logo {
+      max-width: 120px;
+      margin-bottom: 1rem;
+    }
+
+    .form-header h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--primary-blue);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      padding: 0.7rem;
+      border: none;
+      background-color: var(--secondary-blue);
+      color: var(--text-light);
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+      width: 100%;
+      margin-top: 1rem;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--primary-blue);
+    }
+
+    .resend-btn {
+      background-color: transparent;
+      color: var(--secondary-blue);
+      width: auto;
+      padding: 0;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: normal;
+      text-decoration: underline;
+    }
+
+    .resend-btn:hover {
+      color: var(--primary-blue);
+    }
+
+    .resend-btn:disabled {
+      color: #999;
+      cursor: not-allowed;
+      text-decoration: none;
+    }
+
+    .otp-display {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: var(--primary-blue);
+      font-weight: bold;
+    }
+
+    .admin-link {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--secondary-blue);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .admin-link:hover {
+      color: var(--primary-blue);
+    }
+
+    .admin-form {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--text-light);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-form h3 {
+      color: var(--primary-blue);
+      margin-bottom: 1rem;
+    }
+
+    .filter-container {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .filter-container label {
+      font-size: 1rem;
+      color: var(--primary-blue);
+      margin-right: 0.5rem;
+    }
+
+    .scroll-container {
+      background-color: var(--accent-yellow);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .scroll-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+      font-weight: bold;
+      color: var(--text-dark);
+      padding: 0.5rem;
+    }
+
+    @keyframes scroll-left {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+
+    @media (max-width: 600px) {
+      nav { flex-direction: column; }
+      .nav-btn { padding: 0.75rem; margin: 0.2rem 0; }
+      .search-input { width: 70%; }
+      .site-logo { max-width: 100px; }
+      .login-logo { max-width: 100px; }
+      .admin-actions { flex-direction: column; }
+      .admin-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body class="login-active">
+  <section id="loginSection" aria-label="Login Section">
+    <div class="form-section" id="step1">
+      <div class="form-header">
+        <img src="https://img.jagranjosh.com/images/2022/June/1362022/NBKRIST.png" alt="NBKRIST Logo" class="login-logo" loading="lazy">
+        <h3>Student Login</h3>
+      </div>
+      <h2>Enter Mobile Number</h2>
+      <input type="tel" id="mobile" placeholder="10-Digit Mobile Number" aria-label="Mobile Number" />
+      <div id="mobileError" class="error"></div>
+      <button onclick="sendOTP()">Send OTP</button>
+      <div class="admin-link" onclick="showAdminLogin()">Admin Login</div>
+    </div>
+    <div class="form-section hidden" id="step2">
+      <div class="form-header">
+        <img src="https://img.jagranjosh.com/images/2022/June/1362022/NBKRIST.png" alt="NBKRIST Logo" class="login-logo" loading="lazy">
+        <h3>Student Login</h3>
+      </div>
+      <h2>Verify OTP</h2>
+      <div id="otpDisplay" class="otp-display hidden"></div>
+      <input type="text" id="otp" placeholder="Enter 6-Digit OTP" aria-label="OTP" />
+      <div id="otpError" class="error"></div>
+      <button onclick="verifyOTP()">Verify OTP</button>
+      <button onclick="resendOTP()" id="resendBtn" class="resend-btn hidden" disabled>Resend OTP in <span id="resendTimer">30</span>s</button>
+    </div>
+    <div class="form-section hidden" id="step3">
+      <div class="form-header">
+        <img src="https://img.jagranjosh.com/images/2022/June/1362022/NBKRIST.png" alt="NBKRIST Logo" class="login-logo" loading="lazy">
+        <h3>Student Login</h3>
+      </div>
+      <h2>Enter Roll Number</h2>
+      <input type="text" id="roll" placeholder="e.g., 23KB1A1250" aria-label="Roll Number" />
+      <div id="rollError" class="error"></div>
+      <button onclick="submitRoll()">Submit</button>
+    </div>
+    <div class="form-section hidden" id="adminLogin">
+      <div class="form-header">
+        <img src="https://img.jagranjosh.com/images/2022/June/1362022/NBKRIST.png" alt="NBKRIST Logo" class="login-logo" loading="lazy">
+        <h3>Admin Login</h3>
+      </div>
+      <h2>Enter Admin Credentials</h2>
+      <input type="text" id="adminUsername" placeholder="Username" aria-label="Admin Username" />
+      <input type="password" id="adminPassword" placeholder="Password" aria-label="Admin Password" />
+      <div id="adminError" class="error"></div>
+      <button onclick="adminLogin()">Login</button>
+      <div class="admin-link" onclick="showStudentLogin()">Back to Student Login</div>
+    </div>
+  </section>
+  <section id="newsSection" class="hidden" aria-label="News Section">
+    <div class="logo-container">
+      <img src="https://img.jagranjosh.com/images/2022/June/1362022/NBKRIST.png" alt="NBKRIST College Logo" class="site-logo" loading="lazy">
+    </div>
+    <header>NBKRIST College Daily News</header>
+    <div class="search-container">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search news and portfolio..." aria-label="Search News and Portfolio" />
+      <button class="search-button" onclick="performSearch()">Search</button>
+    </div>
+    <div class="scroll-container">
+      <div class="scroll-text">
+        Message from NBKRIST Director: The college will remain closed for Dasara holidays from September 26, 2025, to October 3, 2025. Reopens October 4, 2025.
+      </div>
+    </div>
+    <nav>
+      <button id="homeBtn" class="nav-btn nav-btn-blue active">Home</button>
+      <button id="eventsBtn" class="nav-btn nav-btn-green">Events</button>
+      <button id="achievementsBtn" class="nav-btn nav-btn-purple">Achievements</button>
+      <button id="holidaysBtn" class="nav-btn nav-btn-orange">Holidays</button>
+      <button id="portfolioBtn" class="nav-btn nav-btn-teal">Portfolio</button>
+      <button id="contactBtn" class="nav-btn nav-btn-red">Contact</button>
+    </nav>
+    <main id="newsContainer" aria-live="polite">
+      <article class="news-article" data-id="1">
+        <h2 class="news-title">Welcome to the New Academic Year at NBKRIST!</h2>
+        <div class="news-meta">Posted on August 13, 2025 | By Editor | Department: All</div>
+        <img src="https://i.ytimg.com/vi/bapxwuntu8c/maxresdefault.jpg" alt="NBKRIST campus with students and faculty" class="news-image">
+        <p class="news-content">
+          <strong>We are thrilled to kick off the 2025-26 academic year with exciting events, workshops, and opportunities for all students. Stay tuned for daily updates!</strong>
+        </p>
+      </article>
+      <article class="news-article" data-id="2">
+        <h2 class="news-title">NBKRIST Robotics Club Wins State Championship</h2>
+        <div class="news-meta">Posted on September 17, 2025 | By Editor | Department: Achievements</div>
+        <img src="https://cdn.pixabay.com/photo/2024/04/08/20/00/brain-8684349_1280.jpg" alt="Robotics club students with their winning robot" class="news-image">
+        <p class="news-content">
+          Congratulations to the NBKRIST Robotics Club for clinching the state championship! Their innovative design and teamwork wowed the judges.
+        </p>
+      </article>
+    </main>
+    <footer>
+      © 2025 NBKRIST College Daily News | All Rights Reserved
+    </footer>
+  </section>
+  <section id="adminSection" class="hidden" aria-label="Admin Dashboard">
+    <div class="logo-container">
+      <img src="https://img.jagranjosh.com/images/2022/June/1362022/NBKRIST.png" alt="NBKRIST College Logo" class="site-logo" loading="lazy">
+    </div>
+    <header>NBKRIST Admin Dashboard</header>
+    <div class="admin-actions">
+      <button class="admin-btn faculty-btn" onclick="goToFacultyPortal()">Faculty Portal</button>
+      <button class="admin-btn back-btn" onclick="goBackToLogin()">Go Back</button>
+    </div>
+    <main>
+      <div class="filter-container">
+        <label for="departmentFilter">Filter by Department:</label>
+        <select id="departmentFilter" onchange="filterAdminContent()" aria-label="Filter Articles and Projects by Department">
+          <option value="All">All</option>
+          <option value="Events">Events</option>
+          <option value="Achievements">Achievements</option>
+          <option value="Holidays">Holidays</option>
+        </select>
+      </div>
+      <div class="admin-form">
+        <h3>Add New Article</h3>
+        <input type="text" id="articleTitle" placeholder="Article Title" aria-label="Article Title" />
+        <input type="date" id="articleDate" aria-label="Article Date" />
+        <input type="text" id="articleAuthor" placeholder="Author" aria-label="Article Author" />
+        <select id="articleDepartment" aria-label="Article Department">
+          <option value="All">All</option>
+          <option value="Events">Events</option>
+          <option value="Achievements">Achievements</option>
+          <option value="Holidays">Holidays</option>
+        </select>
+        <input type="url" id="articleImage" placeholder="Image URL (optional)" aria-label="Article Image URL" />
+        <textarea id="articleContent" placeholder="Article Content" aria-label="Article Content"></textarea>
+        <div id="articleError" class="error"></div>
+        <button onclick="addArticle()">Add Article</button>
+      </div>
+      <div class="admin-form">
+        <h3>Add New Portfolio Project</h3>
+        <input type="text" id="portfolioTitle" placeholder="Project Title" aria-label="Portfolio Project Title" />
+        <input type="text" id="portfolioTechnologies" placeholder="Technologies (e.g., C++, Java)" aria-label="Portfolio Technologies" />
+        <input type="url" id="portfolioLink" placeholder="Project Link (optional)" aria-label="Portfolio Project Link" />
+        <textarea id="portfolioDescription" placeholder="Project Description" aria-label="Portfolio Project Description"></textarea>
+        <div id="portfolioError" class="error"></div>
+        <button onclick="addPortfolioProject()">Add Project</button>
+      </div>
+      <div id="adminNewsContainer" aria-live="polite"></div>
+      <div id="adminPortfolioContainer" aria-live="polite"></div>
+    </main>
+    <footer>
+      © 2025 NBKRIST College Daily News | All Rights Reserved
+    </footer>
+  </section>
+  <script>
+    let generatedOTP = "";
+    let resendTimeout;
+    let articles = [
+      {
+        id: 1,
+        title: "Welcome to the New Academic Year at NBKRIST!",
+        date: "2025-08-13",
+        author: "Editor",
+        department: "All",
+        image: "https://i.ytimg.com/vi/bapxwuntu8c/maxresdefault.jpg",
+        content: "<strong>We are thrilled to kick off the 2025-26 academic year with exciting events, workshops, and opportunities for all students. Stay tuned for daily updates!</strong>",
+      },
+      {
+        id: 2,
+        title: "NBKRIST Robotics Club Wins State Championship",
+        date: "2025-09-17",
+        author: "Editor",
+        department: "Achievements",
+        image: "https://cdn.pixabay.com/photo/2024/04/08/20/00/brain-8684349_1280.jpg",
+        content: "Congratulations to the NBKRIST Robotics Club for clinching the state championship! Their innovative design and teamwork wowed the judges.",
+      },
+    ];
+    let portfolioProjects = [
+      {
+        id: 1,
+        title: "Hospital Management System",
+        technologies: "C++, OOP, File Handling, STL",
+        department: "Achievements",
+        link: "https://github.com/vamsivemula/hospital-management-system",
+        description: "<ul><li>Designed and developed a console-based hospital management system using C++ and OOP concepts such as inheritance, polymorphism, and encapsulation.</li><li>Implemented role-based modules for Admin, Doctor, and Receptionist to manage patient records, appointments, billing, and doctor details.</li><li>Used file handling for data persistence and STL containers (<code>vector</code>, <code>map</code>) for efficient data management.</li><li>Created an intuitive command-line interface to streamline operations and enhance usability.</li></ul>",
+      },
+      {
+        id: 2,
+        title: "ATM System",
+        technologies: "Java, OOP, MySQL, Collections",
+        department: "Achievements",
+        link: "https://github.com/vamsivemula/atm-system",
+        description: "<ul><li>Built a Java-based ATM simulation applying core OOP principles for modular and maintainable code.</li><li>Implemented key banking operations: authentication, balance checks, withdrawals, deposits, and PIN management with robust error handling.</li><li>Integrated a MySQL database for transaction and account data; used Java Collections for real-time processing.</li></ul>",
+      },
+    ];
+
+    // Initialize data in localStorage
+    if (!localStorage.getItem('articles')) {
+      localStorage.setItem('articles', JSON.stringify(articles));
+    }
+    if (!localStorage.getItem('portfolioProjects')) {
+      localStorage.setItem('portfolioProjects', JSON.stringify(portfolioProjects));
+    }
+
+    // Student Login Functions
+    document.getElementById('mobile').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendOTP();
+      }
+    });
+
+    document.getElementById('otp').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        verifyOTP();
+      }
+    });
+
+    document.getElementById('roll').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitRoll();
+      }
+    });
+
+    function startResendTimer() {
+      let timeLeft = 30;
+      const resendBtn = document.getElementById('resendBtn');
+      const timerSpan = document.getElementById('resendTimer');
+      resendBtn.disabled = true;
+      timerSpan.textContent = timeLeft;
+      clearInterval(resendTimeout);
+      resendTimeout = setInterval(() => {
+        timeLeft--;
+        timerSpan.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(resendTimeout);
+          resendBtn.disabled = false;
+          resendBtn.classList.remove('hidden');
+          timerSpan.textContent = '';
+          resendBtn.textContent = 'Resend OTP';
+        }
+      }, 1000);
+    }
+
+    function sendOTP() {
+      const mobile = document.getElementById('mobile').value.trim().replace(/\D/g, '');
+      const mobileError = document.getElementById('mobileError');
+      if (!/^[6-9]\d{9}$/.test(mobile)) {
+        mobileError.textContent = 'Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.';
+        console.log('Invalid mobile number:', mobile);
+        return;
+      }
+      mobileError.textContent = '';
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      console.log('Generated OTP:', generatedOTP);
+      alert(`Your OTP is: ${generatedOTP}`);
+      document.getElementById('otpDisplay').textContent = `OTP: ${generatedOTP}`;
+      document.getElementById('otpDisplay').classList.remove('hidden');
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+      startResendTimer();
+    }
+
+    function resendOTP() {
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      console.log('Resent OTP:', generatedOTP);
+      alert(`New OTP sent: ${generatedOTP}`);
+      const otpError = document.getElementById('otpError');
+      const otpDisplay = document.getElementById('otpDisplay');
+      otpError.textContent = 'New OTP sent successfully.';
+      otpError.classList.remove('error');
+      otpError.classList.add('success');
+      otpDisplay.textContent = `OTP: ${generatedOTP}`;
+      otpDisplay.classList.remove('hidden');
+      startResendTimer();
+    }
+
+    function verifyOTP() {
+      const otp = document.getElementById('otp').value.trim();
+      const otpError = document.getElementById('otpError');
+      otpError.classList.remove('success');
+      otpError.classList.add('error');
+      if (!/^\d{6}$/.test(otp)) {
+        otpError.textContent = 'Please enter a valid 6-digit OTP.';
+        document.getElementById('resendBtn').classList.remove('hidden');
+        return;
+      }
+      if (otp !== generatedOTP) {
+        otpError.textContent = 'Invalid OTP. Please try again.';
+        document.getElementById('resendBtn').classList.remove('hidden');
+        return;
+      }
+      otpError.textContent = '';
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step3').classList.remove('hidden');
+    }
+
+    function submitRoll() {
+      const roll = document.getElementById('roll').value.trim().toLowerCase();
+      const rollError = document.getElementById('rollError');
+      if (!/^[0-9]{2}[a-z]{2}[0-9][a-z][0-9]{4}$/.test(roll)) {
+        rollError.textContent = 'Invalid roll number format (e.g., 23kb1a1250).';
+        return;
+      }
+      rollError.textContent = '';
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('newsSection').classList.remove('hidden');
+      document.body.classList.remove('login-active');
+      renderNews();
+    }
+
+    // Admin Login Functions
+    function showAdminLogin() {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('adminLogin').classList.remove('hidden');
+    }
+
+    function showStudentLogin() {
+      document.getElementById('adminLogin').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
+    }
+
+    function adminLogin() {
+      const username = document.getElementById('adminUsername').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+      const adminError = document.getElementById('adminError');
+      if (username !== 'admin' || password !== 'nbkrist2025') {
+        adminError.textContent = 'Invalid username or password.';
+        return;
+      }
+      adminError.textContent = '';
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('adminSection').classList.remove('hidden');
+      document.body.classList.remove('login-active');
+      renderAdminNews();
+      renderAdminPortfolio();
+    }
+
+    // Admin Navigation Functions
+    function goToFacultyPortal() {
+      window.open('http://www.nbkrist.org/faculty', '_blank');
+    }
+
+    function goBackToLogin() {
+      if (confirm('Are you sure you want to return to the login page?')) {
+        document.getElementById('adminSection').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+        document.getElementById('adminLogin').classList.remove('hidden');
+        document.body.classList.add('login-active');
+      }
+    }
+
+    // News Management Functions
+    function renderNews() {
+      const newsContainer = document.getElementById('newsContainer');
+      newsContainer.innerHTML = '';
+      articles = JSON.parse(localStorage.getItem('articles')) || articles;
+      articles.forEach(article => {
+        const articleElement = document.createElement('article');
+        articleElement.classList.add('news-article');
+        articleElement.setAttribute('data-id', article.id);
+        articleElement.setAttribute('data-department', article.department);
+        articleElement.innerHTML = `
+          <h2 class="news-title">${article.title}</h2>
+          <div class="news-meta">Posted on ${article.date} | By ${article.author} | Department: ${article.department}</div>
+          ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image">` : ''}
+          <p class="news-content">${article.content}</p>
+        `;
+        newsContainer.appendChild(articleElement);
+      });
+    }
+
+    function renderAdminNews() {
+      const adminNewsContainer = document.getElementById('adminNewsContainer');
+      const departmentFilter = document.getElementById('departmentFilter').value;
+      adminNewsContainer.innerHTML = '';
+      articles = JSON.parse(localStorage.getItem('articles')) || articles;
+      const filteredArticles = departmentFilter === 'All' ? articles : articles.filter(a => a.department === departmentFilter);
+      filteredArticles.forEach(article => {
+        const articleElement = document.createElement('article');
+        articleElement.classList.add('news-article');
+        articleElement.setAttribute('data-id', article.id);
+        articleElement.setAttribute('data-department', article.department);
+        articleElement.innerHTML = `
+          <h2 class="news-title">${article.title}</h2>
+          <div class="news-meta">Posted on ${article.date} | By ${article.author} | Department: ${article.department}</div>
+          ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image">` : ''}
+          <p class="news-content">${article.content}</p>
+          <div class="admin-actions">
+            <button class="admin-btn edit-btn" onclick="editArticle(${article.id})">Edit</button>
+            <button class="admin-btn delete-btn" onclick="deleteArticle(${article.id})">Delete</button>
+          </div>
+        `;
+        adminNewsContainer.appendChild(articleElement);
+      });
+    }
+
+    function addArticle() {
+      const title = document.getElementById('articleTitle').value.trim();
+      const date = document.getElementById('articleDate').value;
+      const author = document.getElementById('articleAuthor').value.trim();
+      const department = document.getElementById('articleDepartment').value;
+      const image = document.getElementById('articleImage').value.trim();
+      const content = document.getElementById('articleContent').value.trim();
+      const articleError = document.getElementById('articleError');
+
+      if (!title || !date || !author || !content || !department) {
+        articleError.textContent = 'Please fill in all required fields (Title, Date, Author, Department, Content).';
+        return;
+      }
+
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        articleError.textContent = 'Please enter a valid date in YYYY-MM-DD format.';
+        return;
+      }
+
+      if (image && !/^(https?:\/\/[^\s$.?#].[^\s]*)$/.test(image)) {
+        articleError.textContent = 'Please enter a valid image URL or leave it blank.';
+        return;
+      }
+
+      const newArticle = {
+        id: articles.length ? Math.max(...articles.map(a => a.id)) + 1 : 1,
+        title,
+        date,
+        author,
+        department,
+        image: image || '',
+        content,
+      };
+
+      articles.push(newArticle);
+      localStorage.setItem('articles', JSON.stringify(articles));
+      renderAdminNews();
+      document.getElementById('articleTitle').value = '';
+      document.getElementById('articleDate').value = '';
+      document.getElementById('articleAuthor').value = '';
+      document.getElementById('articleDepartment').value = 'All';
+      document.getElementById('articleImage').value = '';
+      document.getElementById('articleContent').value = '';
+      articleError.textContent = 'Article added successfully.';
+      articleError.classList.remove('error');
+      articleError.classList.add('success');
+    }
+
+    function editArticle(id) {
+      const article = articles.find(a => a.id === id);
+      if (!article) return;
+      document.getElementById('articleTitle').value = article.title;
+      document.getElementById('articleDate').value = article.date;
+      document.getElementById('articleAuthor').value = article.author;
+      document.getElementById('articleDepartment').value = article.department;
+      document.getElementById('articleImage').value = article.image;
+      document.getElementById('articleContent').value = article.content;
+      deleteArticle(id, false);
+      document.getElementById('articleError').textContent = 'Edit the fields and click Add Article to save changes.';
+      document.getElementById('articleError').classList.remove('error');
+      document.getElementById('articleError').classList.add('success');
+    }
+
+    function deleteArticle(id, render = true) {
+      if (confirm('Are you sure you want to delete this article?')) {
+        articles = articles.filter(a => a.id !== id);
+        localStorage.setItem('articles', JSON.stringify(articles));
+        if (render) renderAdminNews();
+      }
+    }
+
+    // Portfolio Management Functions
+    function renderPortfolio() {
+      const newsContainer = document.getElementById('newsContainer');
+      newsContainer.innerHTML = '';
+      portfolioProjects = JSON.parse(localStorage.getItem('portfolioProjects')) || portfolioProjects;
+      portfolioProjects.forEach(project => {
+        const projectElement = document.createElement('article');
+        projectElement.classList.add('portfolio-item');
+        projectElement.setAttribute('data-id', project.id);
+        projectElement.setAttribute('data-department', project.department);
+        projectElement.innerHTML = `
+          <h2 class="portfolio-title">${project.title}</h2>
+          <div class="portfolio-meta">Technologies: ${project.technologies} | Department: ${project.department}</div>
+          <p class="portfolio-content">${project.description} ${project.link ? `<br><a href="${project.link}" target="_blank">View Source Code</a>` : ''}</p>
+        `;
+        newsContainer.appendChild(projectElement);
+      });
+    }
+
+    function renderAdminPortfolio() {
+      const adminPortfolioContainer = document.getElementById('adminPortfolioContainer');
+      const departmentFilter = document.getElementById('departmentFilter').value;
+      adminPortfolioContainer.innerHTML = '';
+      portfolioProjects = JSON.parse(localStorage.getItem('portfolioProjects')) || portfolioProjects;
+      const filteredProjects = departmentFilter === 'All' ? portfolioProjects : portfolioProjects.filter(p => p.department === departmentFilter);
+      filteredProjects.forEach(project => {
+        const projectElement = document.createElement('article');
+        projectElement.classList.add('portfolio-item');
+        projectElement.setAttribute('data-id', project.id);
+        projectElement.setAttribute('data-department', project.department);
+        projectElement.innerHTML = `
+          <h2 class="portfolio-title">${project.title}</h2>
+          <div class="portfolio-meta">Technologies: ${project.technologies} | Department: ${project.department}</div>
+          <p class="portfolio-content">${project.description} ${project.link ? `<br><a href="${project.link}" target="_blank">View Source Code</a>` : ''}</p>
+          <div class="admin-actions">
+            <button class="admin-btn edit-btn" onclick="editPortfolioProject(${project.id})">Edit</button>
+            <button class="admin-btn delete-btn" onclick="deletePortfolioProject(${project.id})">Delete</button>
+          </div>
+        `;
+        adminPortfolioContainer.appendChild(projectElement);
+      });
+    }
+
+    function addPortfolioProject() {
+      const title = document.getElementById('portfolioTitle').value.trim();
+      const technologies = document.getElementById('portfolioTechnologies').value.trim();
+      const link = document.getElementById('portfolioLink').value.trim();
+      const description = document.getElementById('portfolioDescription').value.trim();
+      const portfolioError = document.getElementById('portfolioError');
+
+      if (!title || !technologies || !description) {
+        portfolioError.textContent = 'Please fill in all required fields (Title, Technologies, Description).';
+        return;
+      }
+
+      if (link && !/^(https?:\/\/[^\s$.?#].[^\s]*)$/.test(link)) {
+        portfolioError.textContent = 'Please enter a valid URL for the project link or leave it blank.';
+        return;
+      }
+
+      const newProject = {
+        id: portfolioProjects.length ? Math.max(...portfolioProjects.map(p => p.id)) + 1 : 1,
+        title,
+        technologies,
+        department: "Achievements", // Fixed to Achievements for portfolio projects
+        link: link || '',
+        description,
+      };
+
+      portfolioProjects.push(newProject);
+      localStorage.setItem('portfolioProjects', JSON.stringify(portfolioProjects));
+      renderAdminPortfolio();
+      document.getElementById('portfolioTitle').value = '';
+      document.getElementById('portfolioTechnologies').value = '';
+      document.getElementById('portfolioLink').value = '';
+      document.getElementById('portfolioDescription').value = '';
+      portfolioError.textContent = 'Project added successfully.';
+      portfolioError.classList.remove('error');
+      portfolioError.classList.add('success');
+    }
+
+    function editPortfolioProject(id) {
+      const project = portfolioProjects.find(p => p.id === id);
+      if (!project) return;
+      document.getElementById('portfolioTitle').value = project.title;
+      document.getElementById('portfolioTechnologies').value = project.technologies;
+      document.getElementById('portfolioLink').value = project.link;
+      document.getElementById('portfolioDescription').value = project.description.replace(/<ul><li>|<\/li><li>|<\/li><\/ul>/g, '\n').replace(/<code>|<\/code>/g, '');
+      deletePortfolioProject(id, false);
+      document.getElementById('portfolioError').textContent = 'Edit the fields and click Add Project to save changes.';
+      document.getElementById('portfolioError').classList.remove('error');
+      document.getElementById('portfolioError').classList.add('success');
+    }
+
+    function deletePortfolioProject(id, render = true) {
+      if (confirm('Are you sure you want to delete this project?')) {
+        portfolioProjects = portfolioProjects.filter(p => p.id !== id);
+        localStorage.setItem('portfolioProjects', JSON.stringify(portfolioProjects));
+        if (render) renderAdminPortfolio();
+      }
+    }
+
+    function filterAdminContent() {
+      renderAdminNews();
+      renderAdminPortfolio();
+    }
+
+    function performSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (!query) {
+        alert('Please enter a search query.');
+        return;
+      }
+      const articles = document.querySelectorAll('.news-article');
+      articles.forEach(article => {
+        const title = article.querySelector('.news-title').textContent.toLowerCase();
+        const content = article.querySelector('.news-content').textContent.toLowerCase();
+        article.style.display = (title.includes(query) || content.includes(query)) ? 'block' : 'none';
+      });
+      const projects = document.querySelectorAll('.portfolio-item');
+      projects.forEach(project => {
+        const title = project.querySelector('.portfolio-title').textContent.toLowerCase();
+        const content = project.querySelector('.portfolio-content').textContent.toLowerCase();
+        project.style.display = (title.includes(query) || content.includes(query)) ? 'block' : 'none';
+      });
+    }
+
+    const homeContent = document.getElementById('newsContainer').innerHTML;
+    const eventsContent = `
+      <article class="news-article">
+        <h2 class="news-title">🏃‍♂️ Annual Sports Meet 2025</h2>
+        <div class="news-meta">Posted on September 10, 2025 | By Sports Committee | Department: Events</div>
+        <img src="https://th.bing.com/th/id/R.9aecccd6c550e9bfe15b7263cba4e9bb" alt="Students participating in NBKRIST annual sports meet" class="news-image">
+        <p class="news-content">Join the excitement at the college stadium for the Annual Sports Meet, featuring cricket, basketball, and track events.</p>
+      </article>
+      <article class="news-article">
+        <h2 class="news-title">💼 Tech Mahindra Placement Drive</h2>
+        <div class="news-meta">Posted on September 9, 2025 | By CDPC | Department: Events</div>
+        <img src="https://tse3.mm.bing.net/th/id/OIP.9RyCqhMWhb4FcGXONVzj-wHaEc" alt="Tech Mahindra recruitment event at NBKRIST" class="news-image">
+        <p class="news-content">Final-year B.Tech students, gear up for Tech Mahindra’s campus recruitment drive with pre-placement talks and interviews.</p>
+      </article>
+    `;
+    const achievementsContent = `
+      <article class="news-article">
+        <h2 class="news-title">🏆 NBKRIST Achievements</h2>
+        <div class="news-meta">Updated on August 13, 2025 | Department: Achievements</div>
+        <p class="news-content">
+          <strong>🎓 Academic Excellence</strong><br>
+          - NAAC 'A' Grade and NBA Tier-1 accredited.<br>
+          - Programs in AI, Robotics, VLSI, and more.<br><br>
+          <strong>💼 Placements</strong><br>
+          - Highest: ₹7.08 LPA (Lumen Technologies)<br>
+          - Average: ₹3.05 LPA<br>
+          - Top recruiters: Tech Mahindra, Hexaware, Tiger Analytics.<br><br>
+          <strong>🏅 Student Achievements</strong><br>
+          - K. Indupriya (CSE) interned at Walmart, ₹1L/month.<br>
+          - B. Mahidhar Reddy won at Nau Sainik Camp 2024.
+        </p>
+      </article>
+    `;
+    const holidaysContent = `
+      <article class="news-article">
+        <h2 class="news-title">📅 Dasara Holiday Announcement</h2>
+        <div class="news-meta">Posted on September 17, 2025 | By Administration | Department: Holidays</div>
+        <img src="https://3.bp.blogspot.com/-KYD0rMp61b0/XY2tIv0LvSI/AAAAAAABSq0/-a7zXfsjN28d99lDifY41JPtQIcZcdeQwCLcBGAsYHQ/s1600/Dasara%2BImages%2B%25289%2529.jpg" alt="Dasara festival celebration" class="news-image">
+        <p class="news-content">
+          The college will be closed for Dasara holidays from <strong>September 26 to October 3, 2025</strong>. Reopens on October 4, 2025.
+        </p>
+      </article>
+    `;
+    const portfolioContent = () => {
+      let content = '';
+      portfolioProjects = JSON.parse(localStorage.getItem('portfolioProjects')) || portfolioProjects;
+      portfolioProjects.forEach(project => {
+        content += `
+          <article class="portfolio-item" data-id="${project.id}" data-department="${project.department}">
+            <h2 class="portfolio-title">${project.title}</h2>
+            <div class="portfolio-meta">Technologies: ${project.technologies} | Department: ${project.department}</div>
+            <p class="portfolio-content">${project.description} ${project.link ? `<br><a href="${project.link}" target="_blank">View Source Code</a>` : ''}</p>
+          </article>
+        `;
+      });
+      return content;
+    };
+    const contactContent = `
+      <article class="news-article">
+        <h2 class="news-title">📞 Contact Us</h2>
+        <div class="news-meta">NBKR Institute of Science & Technology</div>
+        <p class="news-content">
+          <strong>Address:</strong><br>
+          NBKRIST, Vidyanagar, Kota, Nellore, Andhra Pradesh - 524413, India.<br><br>
+          <strong>Phone:</strong><br> +91-8624-228226<br><br>
+          <strong>Email:</strong><br> <a href="mailto:principal@nbkrist.org">principal@nbkrist.org</a><br><br>
+          <strong>Website:</strong><br> <a href="http://www.nbkrist.org" target="_blank">www.nbkrist.org</a>
+        </p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3856.883733230635!2d79.82582831484306!3d14.831349989656134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4b180555555555%3A0x1b5768586a1f8101!2sNBKR%20Institute%20of%20Science%20and%20Technology!5e0!3m2!1sen!2sin!4v1663333333333!5m2!1sen!2sin" width="100%" height="300" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-downgrade"></iframe>
+      </article>
+    `;
+
+    const navButtons = document.querySelectorAll('.nav-btn');
+    function setActiveBtn(activeBtn) {
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
+    }
+
+    document.getElementById('homeBtn').addEventListener('click', () => {
+      document.getElementById('newsContainer').innerHTML = homeContent;
+      setActiveBtn(document.getElementById('homeBtn'));
+      renderNews();
+    });
+
+    document.getElementById('eventsBtn').addEventListener('click', () => {
+      document.getElementById('newsContainer').innerHTML = eventsContent;
+      setActiveBtn(document.getElementById('eventsBtn'));
+    });
+
+    document.getElementById('achievementsBtn').addEventListener('click', () => {
+      document.getElementById('newsContainer').innerHTML = achievementsContent;
+      setActiveBtn(document.getElementById('achievementsBtn'));
+    });
+
+    document.getElementById('holidaysBtn').addEventListener('click', () => {
+      document.getElementById('newsContainer').innerHTML = holidaysContent;
+      setActiveBtn(document.getElementById('holidaysBtn'));
+    });
+
+    document.getElementById('portfolioBtn').addEventListener('click', () => {
+      document.getElementById('newsContainer').innerHTML = portfolioContent();
+      setActiveBtn(document.getElementById('portfolioBtn'));
+    });
+
+    document.getElementById('contactBtn').addEventListener('click', () => {
+      document.getElementById('newsContainer').innerHTML = contactContent;
+      setActiveBtn(document.getElementById('contactBtn'));
+    });
+  </script>
+</body>
+</html>
